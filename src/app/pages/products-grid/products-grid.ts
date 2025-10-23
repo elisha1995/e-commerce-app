@@ -4,6 +4,7 @@ import { ProductCard } from '../../components/product-card/product-card';
 import { MatSidenavContent, MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
 import { MatNavList, MatListItem, MatListItemTitle } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-products-grid',
@@ -16,6 +17,7 @@ import { RouterLink } from '@angular/router';
     MatListItem,
     MatListItemTitle,
     RouterLink,
+    TitleCasePipe,
   ],
   template: `
     <mat-sidenav-container class="bg-gray-100 p-6 h-full">
@@ -23,16 +25,26 @@ import { RouterLink } from '@angular/router';
         <div class="p-6">
           <h2 class="text-lg text-gray-900">Categories</h2>
           <mat-nav-list>
-            @for (category of categories(); track category) {
-            <mat-list-item class="my-2" [routerLink]="['/products', category]">
-              <span matListItemTitle class="font-medium">{{ category }}</span>
+            @for (cat of categories(); track cat) {
+            <mat-list-item
+              [activated]="cat === category()"
+              class="my-2"
+              [routerLink]="['/products', cat]"
+            >
+              <span
+                matListItemTitle
+                class="font-medium"
+                [class]="cat === category() ? '!text-white' : null"
+                >{{ cat | titlecase }}</span
+              >
             </mat-list-item>
             }
           </mat-nav-list>
         </div>
       </mat-sidenav>
-      <mat-sidenav-content>
-        <h1 class="text-2xl font-bold text-gray-900 mb-6">{{ category() }}</h1>
+      <mat-sidenav-content class="bg-gray-100 p-6 h-full">
+        <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ category() | titlecase }}</h1>
+        <p class="text-base text-gray-600 mb-6">{{ filteredProducts().length }} products found</p>
         <div class="responsive-grid">
           @for (product of filteredProducts(); track product.id) {
           <app-product-card [product]="product" />
