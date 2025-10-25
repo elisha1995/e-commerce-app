@@ -45,7 +45,9 @@ import { EcommerceStore } from '../../ecommerce-store';
       </mat-sidenav>
       <mat-sidenav-content class="bg-gray-100 p-6 h-full">
         <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ category() | titlecase }}</h1>
-        <p class="text-base text-gray-600 mb-6">{{ store.filteredProducts().length }} products found</p>
+        <p class="text-base text-gray-600 mb-6">
+          {{ store.filteredProducts().length }} products found
+        </p>
         <div class="responsive-grid">
           @for (product of store.filteredProducts(); track product.id) {
           <app-product-card [product]="product" />
@@ -72,4 +74,8 @@ export default class ProductsGrid {
     'home',
     'office',
   ]);
+
+  constructor() {
+    this.store.setCategory(this.category);
+  }
 }
