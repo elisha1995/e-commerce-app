@@ -13,7 +13,7 @@ import { Toaster } from './services/toaster';
 
 export type EcommerceState = {
   products: Product[];
-    category: string;
+  category: string;
   wishlistItems: Product[];
 };
 
@@ -145,28 +145,36 @@ export const EcommerceStore = signalStore(
         category: 'electronics',
       },
     ],
-      category: 'all',
+    category: 'all',
     wishlistItems: [],
-  }as EcommerceState),
-  withComputed(({ category, products }) => ({
+  } as EcommerceState),
+  withComputed(({ category, products, wishlistItems }) => ({
     filteredProducts: computed(() => {
       if (category() === 'all') return products();
       return products().filter((p) => p.category === category().toLowerCase());
     }),
+    wishlistCount: computed(() => wishlistItems().length),
   })),
   withMethods((store, toaster = inject(Toaster)) => ({
     setCategory: signalMethod<string>((category: string) => {
       patchState(store, { category });
     }),
-      addToWishlist: (product: Product) => {
-          const updatedWishlistItems = produce(store.wishlistItems(), (draft) => {
-              if (draft.find(p => p.id === product.id)) {
-                  draft.push(product);
-              }
-          });
+    addToWishlist: (product: Product) => {
+      const updatedWishlistItems = produce(store.wishlistItems(), (draft) => {
+        if (!draft.some((p) => p.id === product.id)) {
+          draft.push(product);
+        }
+      });
 
-          patchState(store, { wishlistItems: updatedWishlistItems });
-            toaster.success(`${product.name} added to wishlist!`);
-      }
+      patchState(store, { wishlistItems: updatedWishlistItems });
+      toaster.success(`${product.name} added to wishlist!`);
+    },
+
+    removeFromWishlist: (product: Product) => {
+      patchState(store, {
+        wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id),
+      });
+      toaster.success(`${product.name} removed from wishlist!`);
+    },
   }))
 );
