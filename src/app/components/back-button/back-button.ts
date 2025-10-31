@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   template: `
     <button matButton="text" [routerLink]="navigateTo() ?? null" class="-ms-2 flex items-center gap-1">
       <mat-icon>arrow_back</mat-icon>
-      {{ label() }}
+      <ng-content />
     </button>
   `,
   styles: `
@@ -19,6 +19,5 @@ import { RouterLink } from '@angular/router';
   `
 })
 export class BackButton {
-  label = input('');
   navigateTo = input<string>();
 }
