@@ -9,7 +9,7 @@ import { MatIconButton } from '@angular/material/button';
   imports: [MatIcon, MatIconButton],
   template: `
     <button
-      class=" !bg-white shadow-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg"
+      class=" !bg-white shadow-md transition-all duration-200 hover:scale-110 hover:shadow-lg"
       [class]="isInWhishlist() ? '!text-red-500' : '!text-gray-400'"
       matIconButton
       (click)="toggleWishlist(product())"
