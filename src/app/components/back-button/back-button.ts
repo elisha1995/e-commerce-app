@@ -7,7 +7,11 @@ import { RouterLink } from '@angular/router';
   selector: 'app-back-button',
   imports: [MatButton, RouterLink, MatIcon],
   template: `
-    <button matButton="text" [routerLink]="navigateTo() ?? null" class="-ms-2 flex items-center gap-1">
+    <button
+      matButton="text"
+      [routerLink]="navigateTo() ?? null"
+      class="-ms-2 flex items-center gap-1"
+    >
       <mat-icon>arrow_back</mat-icon>
       <ng-content />
     </button>
@@ -16,7 +20,7 @@ import { RouterLink } from '@angular/router';
   :host {
     display: block;
   }
-  `
+  `,
 })
 export class BackButton {
   navigateTo = input<string>();

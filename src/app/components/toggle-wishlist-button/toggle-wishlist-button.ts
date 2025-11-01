@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { EcommerceStore } from '../../ecommerce-store';
 import { Product } from '../../models/product';
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 
 @Component({
@@ -21,7 +21,7 @@ import { MatIconButton } from '@angular/material/button';
 })
 export class ToggleWishlistButton {
   product = input.required<Product>();
-  
+
   store = inject(EcommerceStore);
 
   isInWhishlist = computed(() =>
