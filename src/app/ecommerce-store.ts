@@ -199,7 +199,7 @@ export const EcommerceStore = signalStore(
 
       patchState(store, { cartItems: updatedCartItems });
       toaster.success(
-        existingItemIndex
+        existingItemIndex !== -1
           ? `${product.name} quantity updated in cart!`
           : `${product.name} added to cart!`
       );
