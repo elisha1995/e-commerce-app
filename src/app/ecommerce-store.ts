@@ -10,11 +10,13 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Toaster } from './services/toaster';
+import { CartItem } from './models/cart';
 
 export type EcommerceState = {
   products: Product[];
   category: string;
   wishlistItems: Product[];
+  cartItems: CartItem[];
 };
 
 export const EcommerceStore = signalStore(
@@ -147,6 +149,7 @@ export const EcommerceStore = signalStore(
     ],
     category: 'all',
     wishlistItems: [],
+    cartItems: [],
   } as EcommerceState),
   withComputed(({ category, products, wishlistItems }) => ({
     filteredProducts: computed(() => {
@@ -180,6 +183,26 @@ export const EcommerceStore = signalStore(
     clearWishlist: () => {
       patchState(store, { wishlistItems: [] });
       toaster.success('Wishlist cleared!');
+    },
+
+    addToCart: (product: Product, quantity = 1) => {
+      const existingItemIndex = store.cartItems().findIndex((i) => i.product.id === product.id);
+
+      const updatedCartItems = produce(store.cartItems(), (draft) => {
+        if (existingItemIndex !== -1) {
+          draft[existingItemIndex].quantity += quantity;
+          return;
+        }
+
+        draft.push({ product, quantity });
+      });
+
+      patchState(store, { cartItems: updatedCartItems });
+      toaster.success(
+        existingItemIndex
+          ? `${product.name} quantity updated in cart!`
+          : `${product.name} added to cart!`
+      );
     },
   }))
 );
