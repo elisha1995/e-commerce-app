@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
   `,
   styles: ``
 })
-export class ViewCart {
+export default class ViewCart {
 
 }
