@@ -15,7 +15,7 @@ import { QtySelector } from "../../components/qty-selector/qty-selector";
         </div>
       </div>
 
-      <app-qty-selector />
+      <app-qty-selector [quantity]="item().quantity" />
     </div>
   `,
   styles: ``,
