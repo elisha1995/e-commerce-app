@@ -11,7 +11,7 @@ import { ListCartItems } from './list-cart-items/list-cart-items';
       <h1 class="text-3xl font-extrabold mb-4">Shopping Cart</h1>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:cols-span-2">
+        <div class="lg:col-span-2">
           <app-list-cart-items></app-list-cart-items>
         </div>
       </div>
