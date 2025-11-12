@@ -18,7 +18,10 @@ import { MatIconButton } from '@angular/material/button';
         </div>
       </div>
 
-      <app-qty-selector [quantity]="item().quantity" />
+      <app-qty-selector
+        [quantity]="item().quantity"
+        (qtyUpdated)="store.setItemQuantity({ productId: item().product.id, quantity: $event })"
+      />
 
       <div class="flex flex-col items-end">
         <div class="text-right font-semibold text-lg">\${{ total() }}</div>
