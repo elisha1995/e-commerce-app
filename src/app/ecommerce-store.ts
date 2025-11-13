@@ -234,5 +234,20 @@ export const EcommerceStore = signalStore(
           : `All wishlist items are already in the cart!`
       );
     },
+
+    moveToWishlist: (product: Product) => {
+      const updatedCartItems = store.cartItems().filter((item) => item.product.id !== product.id);
+      const updatedWishlistItems = produce(store.wishlistItems(), (draft) => {
+        if (!draft.some((p) => p.id === product.id)) {
+          draft.push(product);
+        }
+      });
+
+      patchState(store, {
+        cartItems: updatedCartItems,
+        wishlistItems: updatedWishlistItems,
+      });
+      toaster.success(`${product.name} moved to wishlist!`);
+    },
   }))
 );
