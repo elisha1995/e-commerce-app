@@ -207,12 +207,32 @@ export const EcommerceStore = signalStore(
     },
 
     setItemQuantity(params: { productId: string; quantity: number }) {
-      const index = store.cartItems().findIndex(c => c.product.id === params.productId);
-      const updated = produce(store.cartItems(), draft => {
+      const index = store.cartItems().findIndex((c) => c.product.id === params.productId);
+      const updated = produce(store.cartItems(), (draft) => {
         draft[index].quantity = params.quantity;
       });
       patchState(store, { cartItems: updated });
       toaster.success(`Cart updated!`);
-    }
+    },
+
+    addAllWishlistToCart: () => {
+      let addedCount = 0;
+
+      const updatedCartItems = produce(store.cartItems(), (draft) => {
+        store.wishlistItems().forEach((product) => {
+          if (!draft.some((item) => item.product.id === product.id)) {
+            draft.push({ product: product, quantity: 1 });
+            addedCount++;
+          }
+        });
+      });
+
+      patchState(store, { cartItems: updatedCartItems, wishlistItems: [] });
+      toaster.success(
+        addedCount > 0
+          ? `${addedCount} item(s) from wishlist added to cart!`
+          : `All wishlist items are already in the cart!`
+      );
+    },
   }))
 );
