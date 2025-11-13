@@ -249,5 +249,11 @@ export const EcommerceStore = signalStore(
       });
       toaster.success(`${product.name} moved to wishlist!`);
     },
+
+    removeFromCart: (product: Product) => {
+      const updatedCartItems = store.cartItems().filter((item) => item.product.id !== product.id);
+      patchState(store, { cartItems: updatedCartItems });
+      toaster.success(`${product.name} removed from cart!`);
+    },
   }))
 );
